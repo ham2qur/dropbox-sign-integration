@@ -1,41 +1,38 @@
 <!DOCTYPE html>
 <html>
-    <!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
-    
-    
+  <!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
 
+  <script
+    src="https://secure.networkmerchants.com/token/CollectCheckout.js"
+    data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"
+  ></script>
 
-
-    <script src="https://secure.networkmerchants.com/token/CollectCheckout.js"
-    data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"></script>
-
-<!-- JavaScript code wrapped in a closure -->
-<script>
-(function() {
-function initiateCheckout() {
-    CollectCheckout.redirectToCheckout({
-        lineItems: [{
-            sku: "{{ data.sku }}",
-            quantity: "{{ data.qty }}",
-            amount: "{{data.amount}}"
-        }],
-        type: "sale",
-        collectShippingInfo: true,
-        customerVault: {
-            addCustomer: true
-        },
-        receipt: {
+  <script>
+    (function () {
+      function initiateCheckout() {
+        CollectCheckout.redirectToCheckout({
+          lineItems: [
+            {
+              sku: "{{ data.sku }}",
+              quantity: "{{ data.qty }}",
+              amount: "{{data.amount}}",
+            },
+          ],
+          type: "sale",
+          collectShippingInfo: true,
+          customerVault: {
+            addCustomer: true,
+          },
+          receipt: {
             showReceipt: true,
-            redirectToSuccessUrl: false
-        }
-    }).then((error) => {
-        console.log(error);
-    });
-}
+            redirectToSuccessUrl: false,
+          },
+        }).then((error) => {
+          console.log(error);
+        });
+      }
 
-// Call initiateCheckout when the page loads or when necessary
-initiateCheckout();
-})();
-</script>
-
+      initiateCheckout();
+    })();
+  </script>
 </html>
