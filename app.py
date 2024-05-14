@@ -72,12 +72,13 @@ class DropboxSignIntegration(Resource):
         url = "https://collectcheckout.com/r/l7pyhm77gmg97udr8wd9dirxq2oxis"
         return redirect(url)
 
-    @app.route("/checkout2", methods=['GET'])
+    @app.route("/cart", methods=['GET'])
     def collectCheckout():
-        """
-            Step 1: Dropship sign will redirect the user to this endpoint after successful signing
-            Step 2: This endpoint will render our checkout form.
-        """
+        url = ""
+        # """
+        #     Step 1: Dropbox sign will redirect the user to this endpoint after successful signing
+        #     Step 2: This endpoint will render our checkout form.
+        # """
 
         # ye koi id aye gi dropbox sign se
         # id = request.data['id']
@@ -101,12 +102,12 @@ class DropboxSignIntegration(Resource):
     @app.route('/collect/payment', methods=['POST'])
     @cross_origin(support_credentials=False)
     def collect_payment():
-        """
-            Step 3: After submission from payment.html user would be submit to this form.
-            Step 4: Call easypay to process payment with details received from the submitted form.
-            Step 5: On success payment store the details to zapier.
-            Step 6: Redirect back user to dropbox sign. (In step 1 maintain the incoming url.)
-        """
+        # """
+        #     Step 3: After submission from payment.html user would be submit to this form.
+        #     Step 4: Call easypay to process payment with details received from the submitted form.
+        #     Step 5: On success payment store the details to zapier.
+        #     Step 6: Redirect back user to dropbox sign. (In step 1 maintain the incoming url.)
+        # """
 
         payment_data = request.form
 
