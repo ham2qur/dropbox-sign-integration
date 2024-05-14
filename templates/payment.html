@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html>
-    <!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
-    <script src="https://secure.networkmerchants.com/token/CollectCheckout.js"
-            data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"></script>
+  <!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
 
-    <!-- This is the element on your page that we’re using to trigger Collect Checkout. -->
-    <button id="checkout_button">Checkout Now</button>
+  <script
+    src="https://secure.networkmerchants.com/token/CollectCheckout.js"
+    data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"
+  ></script>
 
-    <!--
-        You must run CollectCheckout.redirectToCheckout to send the customer to your cart.
-        This is using a click on a specific div, but you can make this anything you like.
-        All configuration happens in an object passed into redirectToCheckout.
-    -->
-    <script>
-    document.getElementById('checkout_button').addEventListener('click', function (e) {
+  <script>
+    (function () {
+      function initiateCheckout() {
         CollectCheckout.redirectToCheckout({
-            lineItems: [{
-                sku: "{{ data.sku }}",
-                quantity: "{{ data.qty }}"
-            }],
-            type: "sale",
-            collectShippingInfo: true,
-            customerVault: {
-                addCustomer: true
+          lineItems: [
+            {
+              sku: "{{ data.sku }}",
+              quantity: "{{ data.qty }}",
+              amount: "{{data.amount}}",
             },
-            receipt: {
-                showReceipt: true,
-                redirectToSuccessUrl: false
-            }
+          ],
+          type: "sale",
+          collectShippingInfo: true,
+          customerVault: {
+            addCustomer: true,
+          },
+          receipt: {
+            showReceipt: true,
+            redirectToSuccessUrl: false,
+          },
         }).then((error) => {
-            console.log(error);
+          console.log(error);
         });
-    });
+      }
 
-    </script>
+      initiateCheckout();
+    })();
+  </script>
 </html>
