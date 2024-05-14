@@ -81,8 +81,8 @@ class DropboxSignIntegration(Resource):
         data = {}
 
         data['amount'] = 1000
-        data['Customer'] = "Customer Name"
-        data['sku'] = "0001"
+        # data['Customer'] = "Customer Name"
+        data['sku'] = "1"
         data['qty'] = 1
         return render_template('payment.html', data=data)
 
