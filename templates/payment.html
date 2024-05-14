@@ -1,38 +1,207 @@
 <!DOCTYPE html>
 <html>
-  <!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
+<!-- This loads the Collect Checkout JS file. Make sure to use your Checkout key. -->
 
-  <script
-    src="https://secure.networkmerchants.com/token/CollectCheckout.js"
-    data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"
-  ></script>
+<!--  <script-->
+<!--    src="https://secure.networkmerchants.com/token/CollectCheckout.js"-->
+<!--    data-checkout-key="checkout_public_wDb8q95zg479zA9GF3pGqr9U3TG2dm87"-->
+<!--  ></script>-->
 
-  <script>
-    (function () {
-      function initiateCheckout() {
-        CollectCheckout.redirectToCheckout({
-          lineItems: [
-            {
-              sku: "{{ data.sku }}",
-              quantity: "{{ data.qty }}",
-              amount: "{{data.amount}}",
-            },
-          ],
-          type: "sale",
-          collectShippingInfo: true,
-          customerVault: {
-            addCustomer: true,
-          },
-          receipt: {
-            showReceipt: true,
-            redirectToSuccessUrl: false,
-          },
-        }).then((error) => {
-          console.log(error);
-        });
+<!-- Collect.js is loaded -->
+<script src="https://secure.easypaydirectgateway.com/token/Collect.js"
+        data-tokenization-key="d37gEu-y5h23Y-YDj4D2-7tm342">
+</script>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+  CollectJS.configure({
+    'callback': function (response) {
+      document.getElementById("paymentTokenInfo").innerHTML =
+        '<b>Payment Token:</b> ' + response.token +
+        '<br><b>Card:</b> ' + response.card.number +
+        '<br><b>BIN/EIN:</b> ' + response.card.bin +
+        '<br><b>Expiration:</b> ' + response.card.exp +
+        '<br><b>Hash:</b> ' + response.card.hash +
+        '<br><b>Card Type:</b> ' + response.card.type +
+        '<br><b>Check Account Name:</b> ' + response.check.name +
+        '<br><b>Check Account Number:</b> ' + response.check.account +
+        '<br><b>Check Account Hash:</b> ' + response.check.hash +
+        '<br><b>Check Routing Number:</b> ' + response.check.aba;
+    },
+    variant: 'inline',
+    googleFont: 'Abel',
+    invalidCss: {
+      color: '#B40E3E'
+    },
+    validCss: {
+      color: '#14855F'
+    },
+    customCss: {
+      'border-color': '#FFFFFF',
+      'border-style': 'solid'
+    },
+    focusCss: {
+      'border-color': '#1CC48B',
+      'border-style': 'solid',
+      'border-width': '3px'
+    },
+    fields: {
+      cvv: {
+        placeholder: 'CVV'
+      },
+      ccnumber: {
+          placeholder: 'Credit Card'
+      },
+      ccexp: {
+          placeholder: 'MM / YY'
       }
+    }
+  });
+});
 
-      initiateCheckout();
-    })();
-  </script>
+</script>
+
+<style>
+    html {
+    font-family: 'Abel';
+}
+
+.pageTitle {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 40px;
+    font-family: "Domine" !important;
+}
+
+.form-group {
+    width: 290px;
+}
+
+.formInner {
+    font-family: 'Abel' !important;
+    width: 500px;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px auto;
+}
+
+#payButton {
+    width: 290px;
+    display: block;
+    margin: 20px auto;
+    height: 50px !important;
+    font-size: 20px;
+    background-color: #1CC48B;
+    border-color: #1CC48B;
+    box-shadow: 0 3px 10px #bbbbbb;
+}
+
+#payButton:hover {
+    background-color: #19C687;
+    border-color: #19C687;
+    box-shadow: 0 3px 4px #bbbbbb;
+}
+
+#payButton:active {
+    opacity: 0.7;
+}
+
+.checkboxLabel {
+    margin: 0 0 0 7px;
+}
+
+.payment-field {
+    border-radius: 2px;
+    width: 48%;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px #dddddd;
+    font-size: 16px;
+    transition: 200ms;
+}
+
+.payment-field input:focus {
+    border: 3px solid #1CC48B;
+    outline: none !important;
+}
+
+.payment-field:hover {
+    box-shadow: 0 2px 4px #dddddd;
+}
+
+.payment-field input {
+    border: 3px solid #FFFFFF;
+    width: 100%;
+    border-radius: 2px;
+    padding: 4px 8px;
+}
+
+#payment-fields {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#ccnumber {
+    width: 100%;
+    font-size: 24px;
+}
+
+#ccexp,
+#cvv {
+    font-size: 20px;
+}
+
+#paymentTokenInfo {
+    width: 600px;
+    display: block;
+    margin: 30px auto;
+}
+
+.separator {
+    margin-top: 30px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .pageTitle {
+        font-size: 30px;
+    }
+
+    .theForm {
+        width: 300px;
+        max-width: 90%;
+        margin: auto;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+}
+
+
+
+
+</style>
+
+
+<body>
+<h2 class="pageTitle"><span>Collect.js Inline Example</span></h2>
+
+<form class="theForm" action="/collect/payment" method="POST">
+    <input type="hidden" name="amount" value="100.00">
+    <div class="formInner">
+        <div id="payment-fields">
+          <div class="payment-field" id="ccnumber"></div>
+          <div class="payment-field" id="ccexp"></div>
+          <div class="payment-field" id="cvv"></div>
+        </div>
+    </div>
+    <button type="submit" id="payButton" class="btn btn-primary btn-block" onclick="submit()">Payment</button>
+
+</form>
+<div id="paymentTokenInfo"></div>
+</body>
 </html>
