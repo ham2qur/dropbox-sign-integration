@@ -2,7 +2,7 @@ import json
 from pprint import pprint
 
 from dropbox_sign import \
-    Configuration
+    ApiClient, ApiException, Configuration, apis
 from flask import Flask, request, render_template
 from flask_cors import CORS, cross_origin
 from flask_restful import Api, Resource
@@ -21,6 +21,7 @@ configuration = Configuration(
     # or, configure Bearer (JWT) authorization: oauth2
     # access_token="YOUR_ACCESS_TOKEN",
 )
+
 
 class DropboxSignIntegration(Resource):
 
@@ -69,12 +70,32 @@ class DropboxSignIntegration(Resource):
 
     @app.route('/checkout', methods=['GET'])
     def redirect_to_url():
+        # https://rotten-days-stay.loca.lt/checkout
         url = "https://collectcheckout.com/r/l7pyhm77gmg97udr8wd9dirxq2oxis"
         return redirect(url)
 
     @app.route("/cart", methods=['GET'])
     def collectCheckout():
-        url = ""
+        with ApiClient(configuration) as api_client:
+            signature_request_api = apis.SignatureRequestApi(api_client)
+            
+            signature_request_id = "a043ec1d0631a459fc960d77c2a28ec26267e87c"
+            # sign_status = True
+
+        try:
+            response = signature_request_api.signature_request_get(signature_request_id)
+            pprint(response)
+        except ApiException as e:
+            print("Exception when calling Dropbox Sign API: %s\n" % e)
+            
+        # document_id = signature_request_api.signature_request_get(signature_request_id)
+        # document_sign = signature_request_api.signature_request_get(sign_status)
+        # if (document_sign):
+        #     return render_template('payment.html')
+        # else:
+        #     return "Please Sign the Document First"
+        
+        
         # """
         #     Step 1: Dropbox sign will redirect the user to this endpoint after successful signing
         #     Step 2: This endpoint will render our checkout form.
