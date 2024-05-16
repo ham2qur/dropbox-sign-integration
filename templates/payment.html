@@ -59,14 +59,23 @@
     }
   });
 });
-
 </script>
 
 <style>
     html {
     font-family: 'Abel';
 }
-
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#form{
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 50%;
+}
 .pageTitle {
     text-align: center;
     margin-top: 20px;
@@ -97,10 +106,12 @@
     background-color: #1CC48B;
     border-color: #1CC48B;
     box-shadow: 0 3px 10px #bbbbbb;
+    border-radius: 20px; 
+    cursor: pointer; 
 }
 
 #payButton:hover {
-    background-color: #19C687;
+    background-color: #ffff;
     border-color: #19C687;
     box-shadow: 0 3px 4px #bbbbbb;
 }
@@ -117,7 +128,7 @@
     border-radius: 2px;
     width: 48%;
     margin-bottom: 14px;
-    box-shadow: 0 2px 8px #dddddd;
+    box-shadow: 0 2px 8px #1CC48B;
     font-size: 16px;
     transition: 200ms;
 }
@@ -132,10 +143,10 @@
 }
 
 .payment-field input {
-    border: 3px solid #FFFFFF;
+    border: 3px solid #1CC48B;
     width: 100%;
-    border-radius: 2px;
-    padding: 4px 8px;
+    padding: 15px;
+    border-radius: 20px;
 }
 
 #payment-fields {
@@ -147,11 +158,13 @@
 #ccnumber {
     width: 100%;
     font-size: 24px;
+    border-radius: 20px;
 }
 
 #ccexp,
 #cvv {
     font-size: 20px;
+    border-radius: 20px;
 }
 
 #paymentTokenInfo {
@@ -188,9 +201,9 @@
 
 
 <body>
-<h2 class="pageTitle"><span>Collect.js Inline Example</span></h2>
+<h2 class="pageTitle"><span>Payment Gateway</span></h2>
 
-<form class="theForm" action="/collect/payment" method="POST">
+<form class="theForm" id="form" action="/collect/payment" method="POST">
     <input type="hidden" name="amount" value="100.00">
     <div class="formInner">
         <div id="payment-fields">
